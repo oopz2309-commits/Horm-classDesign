@@ -1,4 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.zs.travel.mapper.ScenicMapper">
+    <select id="selectList" resultType="com.zs.travel.entity.ScenicSpot">
+        SELECT id, name, cover_image, address, description, type, score
+        FROM scenic_spot
+        ORDER BY id ASC
+    </select>
 </mapper>
