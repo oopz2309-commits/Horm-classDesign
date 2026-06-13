@@ -5,6 +5,7 @@ import com.zs.travel.entity.ScenicSpot;
 import com.zs.travel.mapper.ScenicMapper;
 import com.zs.travel.service.ScenicService;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.util.List;
 
@@ -34,5 +35,14 @@ public class ScenicServiceImpl implements ScenicService {
         }
 
         return Result.success("查询成功", scenicSpot);
+    }
+
+    @Override
+    public Result<List<ScenicSpot>> search(String keyword) {
+        if (!StringUtils.hasText(keyword)) {
+            return Result.error("关键词不能为空");
+        }
+
+        return Result.success("查询成功", scenicMapper.search(keyword.trim()));
     }
 }
