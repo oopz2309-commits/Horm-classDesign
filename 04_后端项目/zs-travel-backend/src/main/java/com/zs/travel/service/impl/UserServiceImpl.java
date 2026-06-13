@@ -72,4 +72,23 @@ public class UserServiceImpl implements UserService {
         data.put("token", "test-token");
         return Result.success("登录成功", data);
     }
+
+    @Override
+    public Result<Object> getUserInfo(Integer id) {
+        if (id == null || id <= 0) {
+            return Result.error("用户ID不能为空");
+        }
+
+        User user = userMapper.selectById(id);
+        if (user == null) {
+            return Result.error("用户不存在");
+        }
+
+        Map<String, Object> data = new HashMap<>();
+        data.put("id", user.getId());
+        data.put("username", user.getUsername());
+        data.put("nickname", user.getNickname());
+        data.put("avatar", user.getAvatar());
+        return Result.success("查询成功", data);
+    }
 }

@@ -8,4 +8,6 @@ public interface UserService {
     Result<Void> register(User user);
 
     Result<Object> login(User user);
+
+    Result<Object> getUserInfo(Integer id);
 }

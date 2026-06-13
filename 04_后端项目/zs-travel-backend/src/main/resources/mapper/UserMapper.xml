@@ -7,6 +7,12 @@
         WHERE username = #{username}
     </select>
 
+    <select id="selectById" resultType="com.zs.travel.entity.User">
+        SELECT id, username, nickname, avatar
+        FROM `user`
+        WHERE id = #{id}
+    </select>
+
     <select id="selectByUsername" resultType="com.zs.travel.entity.User">
         SELECT id, username, password, nickname, avatar, create_time
         FROM `user`
