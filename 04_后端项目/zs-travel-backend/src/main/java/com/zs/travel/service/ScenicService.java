@@ -10,4 +10,6 @@ public interface ScenicService {
     Result<List<ScenicSpot>> list();
 
     Result<ScenicSpot> detail(Integer id);
+
+    Result<List<ScenicSpot>> search(String keyword);
 }

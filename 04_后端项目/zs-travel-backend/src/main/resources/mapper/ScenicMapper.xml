@@ -12,4 +12,13 @@
         FROM scenic_spot
         WHERE id = #{id}
     </select>
+
+    <select id="search" resultType="com.zs.travel.entity.ScenicSpot">
+        SELECT id, name, cover_image, address, description, type, score
+        FROM scenic_spot
+        WHERE name LIKE CONCAT('%', #{keyword}, '%')
+           OR description LIKE CONCAT('%', #{keyword}, '%')
+           OR type LIKE CONCAT('%', #{keyword}, '%')
+        ORDER BY id ASC
+    </select>
 </mapper>

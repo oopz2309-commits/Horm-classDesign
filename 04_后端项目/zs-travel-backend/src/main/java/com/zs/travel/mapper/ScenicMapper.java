@@ -12,4 +12,6 @@ public interface ScenicMapper {
     List<ScenicSpot> selectList();
 
     ScenicSpot selectById(@Param("id") Integer id);
+
+    List<ScenicSpot> search(@Param("keyword") String keyword);
 }
