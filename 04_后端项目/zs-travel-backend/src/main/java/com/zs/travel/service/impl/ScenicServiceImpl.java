@@ -21,4 +21,18 @@ public class ScenicServiceImpl implements ScenicService {
     public Result<List<ScenicSpot>> list() {
         return Result.success("查询成功", scenicMapper.selectList());
     }
+
+    @Override
+    public Result<ScenicSpot> detail(Integer id) {
+        if (id == null || id <= 0) {
+            return Result.error("景点ID不能为空");
+        }
+
+        ScenicSpot scenicSpot = scenicMapper.selectById(id);
+        if (scenicSpot == null) {
+            return Result.error("景点不存在");
+        }
+
+        return Result.success("查询成功", scenicSpot);
+    }
 }

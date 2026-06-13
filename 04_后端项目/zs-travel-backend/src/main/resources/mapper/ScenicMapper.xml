@@ -6,4 +6,10 @@
         FROM scenic_spot
         ORDER BY id ASC
     </select>
+
+    <select id="selectById" resultType="com.zs.travel.entity.ScenicSpot">
+        SELECT id, name, cover_image, video_url, address, description, type, score, create_time
+        FROM scenic_spot
+        WHERE id = #{id}
+    </select>
 </mapper>

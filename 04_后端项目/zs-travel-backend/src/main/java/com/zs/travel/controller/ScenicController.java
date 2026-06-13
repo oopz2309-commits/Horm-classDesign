@@ -4,6 +4,7 @@ import com.zs.travel.common.Result;
 import com.zs.travel.entity.ScenicSpot;
 import com.zs.travel.service.ScenicService;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -22,5 +23,10 @@ public class ScenicController {
     @GetMapping("/list")
     public Result<List<ScenicSpot>> list() {
         return scenicService.list();
+    }
+
+    @GetMapping("/detail/{id}")
+    public Result<ScenicSpot> detail(@PathVariable Integer id) {
+        return scenicService.detail(id);
     }
 }
