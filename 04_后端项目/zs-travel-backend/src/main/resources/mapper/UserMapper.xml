@@ -7,6 +7,12 @@
         WHERE username = #{username}
     </select>
 
+    <select id="selectByUsername" resultType="com.zs.travel.entity.User">
+        SELECT id, username, password, nickname, avatar, create_time
+        FROM `user`
+        WHERE username = #{username}
+    </select>
+
     <insert id="insertUser" parameterType="com.zs.travel.entity.User">
         INSERT INTO `user` (username, password, nickname, avatar)
         VALUES (#{username}, #{password}, #{nickname}, #{avatar})

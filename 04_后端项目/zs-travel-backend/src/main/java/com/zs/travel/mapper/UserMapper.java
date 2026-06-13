@@ -9,5 +9,7 @@ public interface UserMapper {
 
     int countByUsername(@Param("username") String username);
 
+    User selectByUsername(@Param("username") String username);
+
     int insertUser(User user);
 }

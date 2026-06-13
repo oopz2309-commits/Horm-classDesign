@@ -6,4 +6,6 @@ import com.zs.travel.entity.User;
 public interface UserService {
 
     Result<Void> register(User user);
+
+    Result<Object> login(User user);
 }

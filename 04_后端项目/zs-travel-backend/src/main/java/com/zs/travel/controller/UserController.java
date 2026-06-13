@@ -22,4 +22,9 @@ public class UserController {
     public Result<Void> register(@RequestBody User user) {
         return userService.register(user);
     }
+
+    @PostMapping("/login")
+    public Result<Object> login(@RequestBody User user) {
+        return userService.login(user);
+    }
 }

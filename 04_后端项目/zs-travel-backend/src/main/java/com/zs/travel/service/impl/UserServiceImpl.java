@@ -7,6 +7,9 @@ import com.zs.travel.service.UserService;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @Service
 public class UserServiceImpl implements UserService {
 
@@ -43,5 +46,30 @@ public class UserServiceImpl implements UserService {
 
         userMapper.insertUser(user);
         return Result.success("注册成功", null);
+    }
+
+    @Override
+    public Result<Object> login(User user) {
+        if (user == null) {
+            return Result.error("请求参数不能为空");
+        }
+        if (!StringUtils.hasText(user.getUsername())) {
+            return Result.error("用户名不能为空");
+        }
+        if (!StringUtils.hasText(user.getPassword())) {
+            return Result.error("密码不能为空");
+        }
+
+        User dbUser = userMapper.selectByUsername(user.getUsername().trim());
+        if (dbUser == null || !user.getPassword().equals(dbUser.getPassword())) {
+            return Result.error("用户名或密码错误");
+        }
+
+        Map<String, Object> data = new HashMap<>();
+        data.put("id", dbUser.getId());
+        data.put("username", dbUser.getUsername());
+        data.put("nickname", dbUser.getNickname());
+        data.put("token", "test-token");
+        return Result.success("登录成功", data);
     }
 }
