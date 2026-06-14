@@ -8,6 +8,7 @@ import { ApiService } from '../services/ApiService';
 @Component
 struct MinePage {
   @State favorites: FavoriteVO[] = AppState.favoriteList;
+  @State favoriteCount: number = AppState.favoriteList.length;
   @State userName: string = AppState.userName();
   @State account: string = AppState.currentUser !== undefined ? AppState.currentUser.username : '未登录';
 
@@ -24,6 +25,7 @@ struct MinePage {
   async loadFavorites() {
     if (!AppState.isLoggedIn()) {
       this.favorites = [];
+      this.favoriteCount = 0;
       return;
     }
     try {
@@ -34,6 +36,7 @@ struct MinePage {
     } catch (error) {
     }
     this.favorites = AppState.favoriteList;
+    this.favoriteCount = this.favorites.length;
   }
 
   logout() {
@@ -86,7 +89,7 @@ struct MinePage {
           .backgroundColor('#FFFFFF')
           .margin({ bottom: 14 })
 
-          this.MenuRow('我的收藏', `${this.favorites.length} 条`, 'refresh')
+          this.FavoriteMenuRow()
           this.MenuRow('关于系统', 'HarmonyOS 课程设计', 'about')
           this.MenuRow('退出登录', '返回登录页', 'logout')
 
@@ -151,6 +154,34 @@ struct MinePage {
     .width('100%')
     .height('100%')
     .backgroundColor(PAGE_BG)
+  }
+
+  @Builder
+  FavoriteMenuRow() {
+    Row() {
+      Text('我的收藏')
+        .fontSize(16)
+        .fontColor(TEXT_DARK)
+        .fontWeight(FontWeight.Medium)
+      Blank()
+      Text(`${this.favoriteCount} 条`)
+        .fontSize(13)
+        .fontColor(TEXT_GRAY)
+      Text('>')
+        .fontSize(18)
+        .fontColor('#9CA3AF')
+        .margin({ left: 8 })
+    }
+    .width('100%')
+    .height(54)
+    .padding({ left: 16, right: 16 })
+    .borderRadius(14)
+    .backgroundColor('#FFFFFF')
+    .margin({ bottom: 10 })
+    .onClick(() => {
+      this.loadFavorites();
+      this.toast('收藏列表已刷新');
+    })
   }
 
   @Builder

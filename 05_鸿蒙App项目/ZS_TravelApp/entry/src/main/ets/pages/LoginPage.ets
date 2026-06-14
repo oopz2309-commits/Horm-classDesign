@@ -26,6 +26,8 @@ struct LoginPage {
       const result = await ApiService.login(this.username, this.password);
       if (result.code === 200 && result.data !== null) {
         AppState.currentUser = result.data;
+        AppState.favoriteList = [];
+        AppState.comments = [];
         this.toast('登录成功');
         router.replaceUrl({ url: 'pages/HomePage' });
       } else {
@@ -39,6 +41,8 @@ struct LoginPage {
         token: 'local-demo-token'
       };
       AppState.currentUser = user;
+      AppState.favoriteList = [];
+      AppState.comments = [];
       this.toast('后端未连接，已进入演示模式');
       router.replaceUrl({ url: 'pages/HomePage' });
     } finally {
