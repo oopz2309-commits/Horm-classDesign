@@ -39,6 +39,13 @@ export interface ScenicSpot {
   score?: number;
 }
 
+export interface ScenicImageVO {
+  id: number;
+  scenicId: number;
+  imageUrl: string;
+  sortOrder?: number;
+}
+
 export interface Food {
   id: number;
   name: string;
@@ -102,7 +109,7 @@ export const MOCK_SCENIC: ScenicSpot[] = [
   {
     id: 1,
     name: '孙中山故里旅游区',
-    coverImage: '/images/scenic/sunzhongshan.jpg',
+    coverImage: '/images/scenic/sunzhongshan/1.jpg',
     videoUrl: '/videos/sunzhongshan.mp4',
     address: '广东省中山市南朗街道',
     description: '孙中山故里旅游区是中山市著名的历史文化景区，适合游客参观学习。',
@@ -112,7 +119,7 @@ export const MOCK_SCENIC: ScenicSpot[] = [
   {
     id: 2,
     name: '中山詹园',
-    coverImage: '/images/scenic/zhanyuan.jpg',
+    coverImage: '/images/scenic/zhanyuan/1.jpg',
     address: '广东省中山市南区',
     description: '中山詹园具有岭南园林特色，环境优美，建筑古朴典雅。',
     type: '园林景观',
@@ -121,7 +128,7 @@ export const MOCK_SCENIC: ScenicSpot[] = [
   {
     id: 3,
     name: '岐江公园',
-    coverImage: '/images/scenic/qijiang.jpg',
+    coverImage: '/images/scenic/qijiang/1.jpg',
     address: '广东省中山市石岐区',
     description: '岐江公园是城市休闲散步和游客观光的好去处。',
     type: '城市公园',
@@ -130,7 +137,7 @@ export const MOCK_SCENIC: ScenicSpot[] = [
   {
     id: 4,
     name: '紫马岭公园',
-    coverImage: '/images/scenic/zimaling.jpg',
+    coverImage: '/images/scenic/zimaling/1.jpg',
     address: '广东省中山市东区',
     description: '紫马岭公园环境清新，适合亲子游玩和户外活动。',
     type: '自然风光',
@@ -139,7 +146,7 @@ export const MOCK_SCENIC: ScenicSpot[] = [
   {
     id: 5,
     name: '小榄菊花园',
-    coverImage: '/images/scenic/xiaolan.jpg',
+    coverImage: '/images/scenic/xiaolan/1.jpg',
     address: '广东省中山市小榄镇',
     description: '小榄菊花园以菊花文化为特色，是地方文化展示窗口。',
     type: '地方文化',

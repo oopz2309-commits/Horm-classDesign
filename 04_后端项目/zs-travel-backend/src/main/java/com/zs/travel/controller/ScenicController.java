@@ -1,6 +1,7 @@
 package com.zs.travel.controller;
 
 import com.zs.travel.common.Result;
+import com.zs.travel.entity.ScenicImageVO;
 import com.zs.travel.entity.ScenicSpot;
 import com.zs.travel.service.ScenicService;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,6 +30,11 @@ public class ScenicController {
     @GetMapping("/detail/{id}")
     public Result<ScenicSpot> detail(@PathVariable Integer id) {
         return scenicService.detail(id);
+    }
+
+    @GetMapping("/images/{scenicId}")
+    public Result<List<ScenicImageVO>> images(@PathVariable Integer scenicId) {
+        return scenicService.images(scenicId);
     }
 
     @GetMapping("/search")

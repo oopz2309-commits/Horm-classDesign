@@ -154,7 +154,7 @@ struct HomePage {
   @Builder
   ScenicCard(item: ScenicSpot) {
     Row() {
-      this.SmallCover(item.name, PRIMARY)
+      this.SmallCover(item.name, PRIMARY, item.coverImage || '')
       Column() {
         Text(item.name)
           .fontSize(17)
@@ -190,7 +190,7 @@ struct HomePage {
   @Builder
   FoodCard(item: Food) {
     Row() {
-      this.SmallCover(item.name, BLUE)
+      this.SmallCover(item.name, BLUE, item.coverImage || '')
       Column() {
         Text(item.name)
           .fontSize(17)
@@ -224,19 +224,28 @@ struct HomePage {
   }
 
   @Builder
-  SmallCover(name: string, color: string) {
-    Column() {
-      Text(name.substring(0, 1))
-        .fontSize(24)
-        .fontWeight(FontWeight.Bold)
-        .fontColor(Color.White)
+  SmallCover(name: string, color: string, coverImage: string) {
+    if (coverImage.length > 0) {
+      Image(ApiService.assetUrl(coverImage))
+        .width(78)
+        .height(78)
+        .borderRadius(14)
+        .objectFit(ImageFit.Cover)
+        .backgroundColor(color)
+    } else {
+      Column() {
+        Text(name.substring(0, 1))
+          .fontSize(24)
+          .fontWeight(FontWeight.Bold)
+          .fontColor(Color.White)
+      }
+      .width(78)
+      .height(78)
+      .borderRadius(14)
+      .justifyContent(FlexAlign.Center)
+      .alignItems(HorizontalAlign.Center)
+      .backgroundColor(color)
     }
-    .width(78)
-    .height(78)
-    .borderRadius(14)
-    .justifyContent(FlexAlign.Center)
-    .alignItems(HorizontalAlign.Center)
-    .backgroundColor(color)
   }
 
   @Builder

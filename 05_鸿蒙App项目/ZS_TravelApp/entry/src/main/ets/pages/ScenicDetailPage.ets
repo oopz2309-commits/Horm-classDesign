@@ -1,7 +1,7 @@
 import router from '@ohos.router';
 import { promptAction } from '@kit.ArkUI';
 import { AppState } from '../common/AppState';
-import { CommentVO, FavoriteVO, PAGE_BG, PRIMARY, PRIMARY_LIGHT, ScenicSpot, TEXT_DARK, TEXT_GRAY } from '../common/Models';
+import { CommentVO, FavoriteVO, PAGE_BG, PRIMARY, ScenicImageVO, ScenicSpot, TEXT_DARK, TEXT_GRAY } from '../common/Models';
 import { ApiService } from '../services/ApiService';
 
 @Entry
@@ -13,7 +13,9 @@ struct ScenicDetailPage {
   @State scoreText: string = '5.0';
   @State address: string = '暂无地址';
   @State description: string = '暂无介绍';
+  @State coverImage: string = '';
   @State videoUrl: string = '';
+  @State galleryImages: string[] = [];
   @State comments: CommentVO[] = [];
   @State commentText: string = '';
   @State favored: boolean = false;
@@ -32,6 +34,7 @@ struct ScenicDetailPage {
       }
     } catch (error) {
     }
+    await this.loadGallery();
     await this.loadComments();
   }
 
@@ -42,8 +45,34 @@ struct ScenicDetailPage {
     this.scoreText = `${item.score || 5.0}`;
     this.address = item.address || '暂无地址';
     this.description = item.description || '暂无介绍';
+    this.coverImage = item.coverImage || '';
     this.videoUrl = item.videoUrl || '';
     this.favored = this.isFavorite(this.scenicId);
+  }
+
+  async loadGallery() {
+    try {
+      const result = await ApiService.scenicImages(this.scenicId);
+      if (result.code === 200 && result.data !== null) {
+        const images: string[] = [];
+        result.data.forEach((item: ScenicImageVO) => {
+          if (item.imageUrl !== undefined && item.imageUrl.length > 0) {
+            images.push(item.imageUrl);
+          }
+        });
+        this.galleryImages = images.length > 0 ? images : this.fallbackGalleryImages();
+        return;
+      }
+    } catch (error) {
+    }
+    this.galleryImages = this.fallbackGalleryImages();
+  }
+
+  fallbackGalleryImages(): string[] {
+    if (this.coverImage.length > 0) {
+      return [this.coverImage];
+    }
+    return [];
   }
 
   findLocal(id: number): ScenicSpot {
@@ -153,7 +182,7 @@ struct ScenicDetailPage {
         Column() {
           this.CoverBlock()
           this.InfoBlock()
-          this.VideoBlock()
+          this.GalleryBlock()
           Button(this.favored ? '取消收藏' : '收藏')
             .width('100%')
             .height(44)
@@ -201,22 +230,44 @@ struct ScenicDetailPage {
 
   @Builder
   CoverBlock() {
-    Column() {
-      Text('景点')
-        .fontSize(14)
-        .fontColor('#EFFFF7')
-      Text(this.name)
-        .fontSize(26)
-        .fontWeight(FontWeight.Bold)
-        .fontColor(Color.White)
-        .margin({ top: 8 })
+    Stack({ alignContent: Alignment.BottomStart }) {
+      if (this.coverImage.length > 0) {
+        Image(ApiService.assetUrl(this.coverImage))
+          .width('100%')
+          .height(188)
+          .objectFit(ImageFit.Cover)
+          .borderRadius(18)
+      } else {
+        Column()
+          .width('100%')
+          .height(188)
+          .borderRadius(18)
+          .backgroundColor(PRIMARY)
+      }
+      Column() {
+        Text('景点')
+          .fontSize(14)
+          .fontColor('#EFFFF7')
+        Text(this.name)
+          .fontSize(26)
+          .fontWeight(FontWeight.Bold)
+          .fontColor(Color.White)
+          .margin({ top: 8 })
+      }
+      .width('100%')
+      .height(188)
+      .justifyContent(FlexAlign.End)
+      .alignItems(HorizontalAlign.Start)
+      .padding(18)
+      .borderRadius(18)
+      .linearGradient({
+        angle: 180,
+        colors: [['#00000000', 0.25], ['#00000099', 1.0]]
+      })
     }
     .width('100%')
     .height(188)
-    .justifyContent(FlexAlign.Center)
-    .alignItems(HorizontalAlign.Center)
     .borderRadius(18)
-    .backgroundColor(PRIMARY)
     .margin({ top: 14, bottom: 14 })
   }
 
@@ -250,27 +301,52 @@ struct ScenicDetailPage {
   }
 
   @Builder
-  VideoBlock() {
-    Row() {
-      Text('▶')
-        .fontSize(20)
-        .fontColor(Color.White)
-        .width(44)
-        .height(44)
-        .textAlign(TextAlign.Center)
-        .borderRadius(22)
-        .backgroundColor(PRIMARY)
-      Text(this.videoUrl.length > 0 ? '宣传视频入口' : '暂无真实视频资源，保留多媒体展示区域')
-        .fontSize(13)
-        .fontColor(TEXT_GRAY)
-        .layoutWeight(1)
-        .margin({ left: 12 })
+  GalleryBlock() {
+    Column() {
+      Row() {
+        Text('景点相册')
+          .fontSize(18)
+          .fontWeight(FontWeight.Bold)
+          .fontColor(TEXT_DARK)
+        Blank()
+        Text(`${this.galleryImages.length} 张`)
+          .fontSize(12)
+          .fontColor(PRIMARY)
+      }
+      .width('100%')
+      .margin({ bottom: 10 })
+
+      if (this.galleryImages.length > 0) {
+        Swiper() {
+          ForEach(this.galleryImages, (imageUrl: string) => {
+            Image(ApiService.assetUrl(imageUrl))
+              .width('100%')
+              .height(158)
+              .borderRadius(14)
+              .objectFit(ImageFit.Cover)
+          }, (imageUrl: string) => imageUrl)
+        }
+        .width('100%')
+        .height(158)
+        .borderRadius(14)
+        .indicator(true)
+        .autoPlay(true)
+        .interval(3000)
+      } else {
+        Text('暂无景点相册图片')
+          .fontSize(13)
+          .fontColor(TEXT_GRAY)
+          .width('100%')
+          .height(86)
+          .textAlign(TextAlign.Center)
+          .borderRadius(14)
+          .backgroundColor(PAGE_BG)
+      }
     }
     .width('100%')
-    .height(86)
-    .padding(12)
+    .padding(14)
     .borderRadius(14)
-    .backgroundColor(PRIMARY_LIGHT)
+    .backgroundColor('#FFFFFF')
     .margin({ bottom: 12 })
   }
 

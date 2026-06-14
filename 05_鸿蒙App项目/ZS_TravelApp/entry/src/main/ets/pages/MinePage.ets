@@ -112,18 +112,7 @@ struct MinePage {
           } else {
             ForEach(this.favorites, (item: FavoriteVO) => {
               Row() {
-                Column() {
-                  Text(item.name.substring(0, 1))
-                    .fontSize(22)
-                    .fontWeight(FontWeight.Bold)
-                    .fontColor(Color.White)
-                }
-                .width(60)
-                .height(60)
-                .borderRadius(12)
-                .justifyContent(FlexAlign.Center)
-                .alignItems(HorizontalAlign.Center)
-                .backgroundColor(item.type === 'scenic' ? PRIMARY : BLUE)
+                this.FavoriteCover(item)
                 Column() {
                   Text(item.name)
                     .fontSize(16)
@@ -142,6 +131,9 @@ struct MinePage {
               .borderRadius(14)
               .backgroundColor('#FFFFFF')
               .margin({ bottom: 10 })
+              .onClick(() => {
+                this.openFavorite(item);
+              })
             }, (item: FavoriteVO) => `${item.type}-${item.targetId}`)
           }
         }
@@ -154,6 +146,41 @@ struct MinePage {
     .width('100%')
     .height('100%')
     .backgroundColor(PAGE_BG)
+  }
+
+  openFavorite(item: FavoriteVO) {
+    if (item.type === 'scenic') {
+      AppState.selectedScenicId = item.targetId;
+      router.pushUrl({ url: 'pages/ScenicDetailPage' });
+    } else {
+      AppState.selectedFoodId = item.targetId;
+      router.pushUrl({ url: 'pages/FoodDetailPage' });
+    }
+  }
+
+  @Builder
+  FavoriteCover(item: FavoriteVO) {
+    if ((item.coverImage || '').length > 0) {
+      Image(ApiService.assetUrl(item.coverImage || ''))
+        .width(60)
+        .height(60)
+        .borderRadius(12)
+        .objectFit(ImageFit.Cover)
+        .backgroundColor(item.type === 'scenic' ? PRIMARY : BLUE)
+    } else {
+      Column() {
+        Text(item.name.substring(0, 1))
+          .fontSize(22)
+          .fontWeight(FontWeight.Bold)
+          .fontColor(Color.White)
+      }
+      .width(60)
+      .height(60)
+      .borderRadius(12)
+      .justifyContent(FlexAlign.Center)
+      .alignItems(HorizontalAlign.Center)
+      .backgroundColor(item.type === 'scenic' ? PRIMARY : BLUE)
+    }
   }
 
   @Builder

@@ -13,6 +13,7 @@ struct FoodDetailPage {
   @State address: string = '暂无地址';
   @State priceText: string = '0';
   @State description: string = '暂无介绍';
+  @State coverImage: string = '';
   @State comments: CommentVO[] = [];
   @State commentText: string = '';
   @State favored: boolean = false;
@@ -40,6 +41,7 @@ struct FoodDetailPage {
     this.address = item.address || '暂无地址';
     this.priceText = `${item.price || 0}`;
     this.description = item.description || '暂无介绍';
+    this.coverImage = item.coverImage || '';
     this.favored = this.isFavorite(this.foodId);
   }
 
@@ -197,22 +199,56 @@ struct FoodDetailPage {
 
   @Builder
   CoverBlock() {
-    Column() {
-      Text('美食')
-        .fontSize(14)
-        .fontColor('#EAF3FF')
-      Text(this.name)
-        .fontSize(26)
-        .fontWeight(FontWeight.Bold)
-        .fontColor(Color.White)
-        .margin({ top: 8 })
+    Row() {
+      if (this.coverImage.length > 0) {
+        Image(ApiService.assetUrl(this.coverImage))
+          .width(156)
+          .height(188)
+          .borderRadius(18)
+          .objectFit(ImageFit.Cover)
+          .backgroundColor(BLUE)
+      } else {
+        Column() {
+          Text(this.name.substring(0, 1))
+            .fontSize(42)
+            .fontWeight(FontWeight.Bold)
+            .fontColor(Color.White)
+        }
+        .width(156)
+        .height(188)
+        .borderRadius(18)
+        .justifyContent(FlexAlign.Center)
+        .alignItems(HorizontalAlign.Center)
+        .backgroundColor(BLUE)
+      }
+
+      Column() {
+        Text('美食')
+          .fontSize(14)
+          .fontColor(BLUE)
+        Text(this.name)
+          .fontSize(24)
+          .fontWeight(FontWeight.Bold)
+          .fontColor(TEXT_DARK)
+          .margin({ top: 8 })
+        Text(this.recommendShop)
+          .fontSize(13)
+          .fontColor(TEXT_GRAY)
+          .maxLines(2)
+          .textOverflow({ overflow: TextOverflow.Ellipsis })
+          .margin({ top: 12 })
+      }
+      .layoutWeight(1)
+      .height(188)
+      .justifyContent(FlexAlign.Center)
+      .alignItems(HorizontalAlign.Start)
+      .margin({ left: 14 })
     }
     .width('100%')
     .height(188)
-    .justifyContent(FlexAlign.Center)
-    .alignItems(HorizontalAlign.Center)
+    .padding(12)
     .borderRadius(18)
-    .backgroundColor(BLUE)
+    .backgroundColor('#FFFFFF')
     .margin({ top: 14, bottom: 14 })
   }
 

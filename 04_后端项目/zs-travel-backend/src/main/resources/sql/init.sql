@@ -26,6 +26,15 @@ CREATE TABLE IF NOT EXISTS scenic_spot (
     create_time DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间'
 ) COMMENT='景点表';
 
+-- 2.1. 景点相册表
+CREATE TABLE IF NOT EXISTS scenic_image (
+    id INT PRIMARY KEY AUTO_INCREMENT COMMENT '景点图片ID',
+    scenic_id INT NOT NULL COMMENT '景点ID',
+    image_url VARCHAR(255) NOT NULL COMMENT '图片地址',
+    sort_order INT DEFAULT 0 COMMENT '排序',
+    create_time DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间'
+) COMMENT='景点相册表';
+
 -- 3. 美食表
 CREATE TABLE IF NOT EXISTS food (
     id INT PRIMARY KEY AUTO_INCREMENT COMMENT '美食ID',
@@ -71,11 +80,29 @@ INSERT INTO user (username, password, nickname, avatar) VALUES
 INSERT INTO scenic_spot
 (name, cover_image, video_url, address, description, type, score)
 VALUES
-('孙中山故里旅游区', '/images/scenic/sunzhongshan.jpg', '/videos/sunzhongshan.mp4', '广东省中山市南朗街道', '孙中山故里旅游区是中山市著名的历史文化景区，具有丰富的历史文化价值，适合游客参观学习。', '历史文化', 4.8),
-('中山詹园', '/images/scenic/zhanyuan.jpg', '', '广东省中山市南区', '中山詹园是一座具有岭南园林特色的景区，环境优美，建筑古朴典雅。', '园林景观', 4.6),
-('岐江公园', '/images/scenic/qijiang.jpg', '', '广东省中山市石岐区', '岐江公园位于中山市城区，是市民休闲散步和游客观光的好去处。', '城市公园', 4.5),
-('紫马岭公园', '/images/scenic/zimaling.jpg', '', '广东省中山市东区', '紫马岭公园环境优美，适合亲子游玩、运动休闲和户外活动。', '自然风光', 4.4),
-('小榄菊花园', '/images/scenic/xiaolan.jpg', '', '广东省中山市小榄镇', '小榄菊花园以菊花文化为特色，是中山地方文化的重要展示窗口。', '地方文化', 4.5);
+('孙中山故里旅游区', '/images/scenic/sunzhongshan/1.jpg', '/videos/sunzhongshan.mp4', '广东省中山市南朗街道', '孙中山故里旅游区是中山市著名的历史文化景区，具有丰富的历史文化价值，适合游客参观学习。', '历史文化', 4.8),
+('中山詹园', '/images/scenic/zhanyuan/1.jpg', '', '广东省中山市南区', '中山詹园是一座具有岭南园林特色的景区，环境优美，建筑古朴典雅。', '园林景观', 4.6),
+('岐江公园', '/images/scenic/qijiang/1.jpg', '', '广东省中山市石岐区', '岐江公园位于中山市城区，是市民休闲散步和游客观光的好去处。', '城市公园', 4.5),
+('紫马岭公园', '/images/scenic/zimaling/1.jpg', '', '广东省中山市东区', '紫马岭公园环境优美，适合亲子游玩、运动休闲和户外活动。', '自然风光', 4.4),
+('小榄菊花园', '/images/scenic/xiaolan/1.jpg', '', '广东省中山市小榄镇', '小榄菊花园以菊花文化为特色，是中山地方文化的重要展示窗口。', '地方文化', 4.5);
+
+-- 景点相册测试数据
+INSERT INTO scenic_image (scenic_id, image_url, sort_order) VALUES
+(1, '/images/scenic/sunzhongshan/1.jpg', 1),
+(1, '/images/scenic/sunzhongshan/2.jpg', 2),
+(1, '/images/scenic/sunzhongshan/3.jpg', 3),
+(2, '/images/scenic/zhanyuan/1.jpg', 1),
+(2, '/images/scenic/zhanyuan/2.jpg', 2),
+(2, '/images/scenic/zhanyuan/3.jpg', 3),
+(3, '/images/scenic/qijiang/1.jpg', 1),
+(3, '/images/scenic/qijiang/2.jpg', 2),
+(3, '/images/scenic/qijiang/3.jpg', 3),
+(4, '/images/scenic/zimaling/1.jpg', 1),
+(4, '/images/scenic/zimaling/2.jpg', 2),
+(4, '/images/scenic/zimaling/3.jpg', 3),
+(5, '/images/scenic/xiaolan/1.jpg', 1),
+(5, '/images/scenic/xiaolan/2.jpg', 2),
+(5, '/images/scenic/xiaolan/3.jpg', 3);
 
 -- 美食测试数据
 INSERT INTO food

@@ -13,6 +13,13 @@
         WHERE id = #{id}
     </select>
 
+    <select id="selectImagesByScenicId" resultType="com.zs.travel.entity.ScenicImageVO">
+        SELECT id, scenic_id, image_url, sort_order
+        FROM scenic_image
+        WHERE scenic_id = #{scenicId}
+        ORDER BY sort_order ASC, id ASC
+    </select>
+
     <select id="search" resultType="com.zs.travel.entity.ScenicSpot">
         SELECT id, name, cover_image, address, description, type, score
         FROM scenic_spot

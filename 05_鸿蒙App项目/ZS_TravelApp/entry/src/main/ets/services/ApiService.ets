@@ -9,6 +9,7 @@ import {
   LoginRequest,
   RegisterRequest,
   Result,
+  ScenicImageVO,
   ScenicSpot,
   SearchResultVO,
   User
@@ -16,6 +17,19 @@ import {
 
 export class ApiService {
   static activeBaseUrl: string = API_BASE_URLS[0];
+
+  static assetUrl(path: string): string {
+    if (path.length === 0) {
+      return '';
+    }
+    if (path.startsWith('http://') || path.startsWith('https://')) {
+      return path;
+    }
+    if (path.startsWith('/')) {
+      return ApiService.activeBaseUrl + path;
+    }
+    return `${ApiService.activeBaseUrl}/${path}`;
+  }
 
   static async request<T>(path: string, method: http.RequestMethod, body?: string): Promise<Result<T>> {
     try {
@@ -80,6 +94,10 @@ export class ApiService {
 
   static scenicDetail(id: number): Promise<Result<ScenicSpot>> {
     return ApiService.request<ScenicSpot>(`/api/scenic/detail/${id}`, http.RequestMethod.GET);
+  }
+
+  static scenicImages(scenicId: number): Promise<Result<ScenicImageVO[]>> {
+    return ApiService.request<ScenicImageVO[]>(`/api/scenic/images/${scenicId}`, http.RequestMethod.GET);
   }
 
   static foodList(): Promise<Result<Food[]>> {

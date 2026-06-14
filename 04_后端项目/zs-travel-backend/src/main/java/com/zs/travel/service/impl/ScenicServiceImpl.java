@@ -1,6 +1,7 @@
 package com.zs.travel.service.impl;
 
 import com.zs.travel.common.Result;
+import com.zs.travel.entity.ScenicImageVO;
 import com.zs.travel.entity.ScenicSpot;
 import com.zs.travel.mapper.ScenicMapper;
 import com.zs.travel.service.ScenicService;
@@ -35,6 +36,15 @@ public class ScenicServiceImpl implements ScenicService {
         }
 
         return Result.success("查询成功", scenicSpot);
+    }
+
+    @Override
+    public Result<List<ScenicImageVO>> images(Integer scenicId) {
+        if (scenicId == null || scenicId <= 0) {
+            return Result.error("景点ID不能为空");
+        }
+
+        return Result.success("查询成功", scenicMapper.selectImagesByScenicId(scenicId));
     }
 
     @Override

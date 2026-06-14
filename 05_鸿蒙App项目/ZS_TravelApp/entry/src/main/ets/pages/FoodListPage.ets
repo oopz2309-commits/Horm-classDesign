@@ -75,18 +75,27 @@ struct FoodListPage {
   @Builder
   FoodCard(item: Food) {
     Row() {
-      Column() {
-        Text(item.name.substring(0, 1))
-          .fontSize(24)
-          .fontWeight(FontWeight.Bold)
-          .fontColor(Color.White)
+      if ((item.coverImage || '').length > 0) {
+        Image(ApiService.assetUrl(item.coverImage || ''))
+          .width(86)
+          .height(86)
+          .borderRadius(14)
+          .objectFit(ImageFit.Cover)
+          .backgroundColor(BLUE)
+      } else {
+        Column() {
+          Text(item.name.substring(0, 1))
+            .fontSize(24)
+            .fontWeight(FontWeight.Bold)
+            .fontColor(Color.White)
+        }
+        .width(86)
+        .height(86)
+        .borderRadius(14)
+        .justifyContent(FlexAlign.Center)
+        .alignItems(HorizontalAlign.Center)
+        .backgroundColor(BLUE)
       }
-      .width(78)
-      .height(78)
-      .borderRadius(14)
-      .justifyContent(FlexAlign.Center)
-      .alignItems(HorizontalAlign.Center)
-      .backgroundColor(BLUE)
 
       Column() {
         Row() {

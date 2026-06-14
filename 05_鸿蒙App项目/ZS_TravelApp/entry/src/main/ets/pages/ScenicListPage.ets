@@ -77,19 +77,28 @@ struct ScenicListPage {
 
   @Builder
   ScenicCard(item: ScenicSpot) {
-    Row() {
-      Column() {
-        Text(item.name.substring(0, 1))
-          .fontSize(24)
-          .fontWeight(FontWeight.Bold)
-          .fontColor(Color.White)
+    Column() {
+      if ((item.coverImage || '').length > 0) {
+        Image(ApiService.assetUrl(item.coverImage || ''))
+          .width('100%')
+          .height(132)
+          .borderRadius(14)
+          .objectFit(ImageFit.Cover)
+          .backgroundColor(PRIMARY)
+      } else {
+        Column() {
+          Text(item.name.substring(0, 1))
+            .fontSize(32)
+            .fontWeight(FontWeight.Bold)
+            .fontColor(Color.White)
+        }
+        .width('100%')
+        .height(132)
+        .borderRadius(14)
+        .justifyContent(FlexAlign.Center)
+        .alignItems(HorizontalAlign.Center)
+        .backgroundColor(PRIMARY)
       }
-      .width(78)
-      .height(78)
-      .borderRadius(14)
-      .justifyContent(FlexAlign.Center)
-      .alignItems(HorizontalAlign.Center)
-      .backgroundColor(PRIMARY)
       Column() {
         Row() {
           Text(item.name)
@@ -117,8 +126,8 @@ struct ScenicListPage {
           .textOverflow({ overflow: TextOverflow.Ellipsis })
           .margin({ top: 8 })
       }
-      .layoutWeight(1)
-      .margin({ left: 12 })
+      .width('100%')
+      .margin({ top: 12 })
     }
     .width('100%')
     .padding(12)

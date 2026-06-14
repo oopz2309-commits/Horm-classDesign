@@ -77,11 +77,11 @@ struct SearchPage {
           } else {
             this.SectionTitle('景点结果')
             ForEach(this.scenicResults, (item: ScenicSpot) => {
-              this.ResultCard(item.name, item.description || '暂无介绍', PRIMARY, 'pages/ScenicDetailPage', item.id)
+              this.ResultCard(item.name, item.description || '暂无介绍', PRIMARY, 'pages/ScenicDetailPage', item.id, item.coverImage || '')
             }, (item: ScenicSpot) => `s-${item.id}`)
             this.SectionTitle('美食结果')
             ForEach(this.foodResults, (item: Food) => {
-              this.ResultCard(item.name, item.description || '暂无介绍', BLUE, 'pages/FoodDetailPage', item.id)
+              this.ResultCard(item.name, item.description || '暂无介绍', BLUE, 'pages/FoodDetailPage', item.id, item.coverImage || '')
             }, (item: Food) => `f-${item.id}`)
           }
         }
@@ -130,20 +130,29 @@ struct SearchPage {
   }
 
   @Builder
-  ResultCard(title: string, desc: string, color: string, targetUrl: string, id: number) {
+  ResultCard(title: string, desc: string, color: string, targetUrl: string, id: number, coverImage: string) {
     Row() {
-      Column() {
-        Text(title.substring(0, 1))
-          .fontSize(22)
-          .fontWeight(FontWeight.Bold)
-          .fontColor(Color.White)
+      if (coverImage.length > 0) {
+        Image(ApiService.assetUrl(coverImage))
+          .width(64)
+          .height(64)
+          .borderRadius(12)
+          .objectFit(ImageFit.Cover)
+          .backgroundColor(color)
+      } else {
+        Column() {
+          Text(title.substring(0, 1))
+            .fontSize(22)
+            .fontWeight(FontWeight.Bold)
+            .fontColor(Color.White)
+        }
+        .width(64)
+        .height(64)
+        .borderRadius(12)
+        .justifyContent(FlexAlign.Center)
+        .alignItems(HorizontalAlign.Center)
+        .backgroundColor(color)
       }
-      .width(64)
-      .height(64)
-      .borderRadius(12)
-      .justifyContent(FlexAlign.Center)
-      .alignItems(HorizontalAlign.Center)
-      .backgroundColor(color)
       Column() {
         Text(title)
           .fontSize(16)

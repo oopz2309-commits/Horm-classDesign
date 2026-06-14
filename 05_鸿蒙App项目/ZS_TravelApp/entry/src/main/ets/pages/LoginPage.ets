@@ -1,13 +1,13 @@
 import router from '@ohos.router';
 import { promptAction } from '@kit.ArkUI';
 import { AppState } from '../common/AppState';
-import { BLUE, BLUE_LIGHT, PAGE_BG, PRIMARY, TEXT_DARK, TEXT_GRAY, User } from '../common/Models';
+import { BLUE, PAGE_BG, PRIMARY, TEXT_DARK, TEXT_GRAY, User } from '../common/Models';
 import { ApiService } from '../services/ApiService';
 
 @Entry
 @Component
 struct LoginPage {
-  @State username: string = 'zhangsan';
+  @State username: string = 'admin';
   @State password: string = '123456';
   @State loading: string = '';
 
@@ -115,15 +115,6 @@ struct LoginPage {
               router.pushUrl({ url: 'pages/RegisterPage' });
             })
 
-          Text('演示账号：zhangsan / 123456')
-            .fontSize(13)
-            .fontColor(TEXT_GRAY)
-            .width('100%')
-            .textAlign(TextAlign.Center)
-            .padding(12)
-            .borderRadius(12)
-            .backgroundColor(BLUE_LIGHT)
-            .margin({ top: 18 })
         }
         .width('100%')
         .padding(24)
