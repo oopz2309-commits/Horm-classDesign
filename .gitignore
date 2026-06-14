@@ -17,3 +17,13 @@ target/
 application.yml
 application.yaml
 application.properties
+
+.hvigor/
+oh_modules/
+local.properties
+*.cer
+*.p7b
+*.p12
+*.csr
+*.mobileprovision
+signingConfigs/

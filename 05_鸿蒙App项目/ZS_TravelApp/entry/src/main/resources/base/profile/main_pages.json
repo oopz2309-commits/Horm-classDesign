@@ -1,0 +1,15 @@
+{
+  "src": [
+    "pages/Index",
+    "pages/SplashPage",
+    "pages/LoginPage",
+    "pages/RegisterPage",
+    "pages/HomePage",
+    "pages/ScenicListPage",
+    "pages/ScenicDetailPage",
+    "pages/FoodListPage",
+    "pages/FoodDetailPage",
+    "pages/SearchPage",
+    "pages/MinePage"
+  ]
+}
